@@ -1,0 +1,76 @@
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+
+    &__background {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0.3;
+        background-image: linear-gradient(rgb(62, 125, 255) 0%, rgba(62, 125, 255, 0) 100%);
+        z-index: -1;
+    }
+
+    .content-hero {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        max-width: 50%;
+        width: 100%;
+        padding: 0 20px; // Adjusted padding for better spacing
+
+        @media (max-width : 991px) {
+            max-width: 100%; // Adjusted for smaller screens
+        }
+
+    }
+
+    &__title {
+        color: var(--color-text-dark);
+    }
+
+    &__description {
+        color: var(--color-text-light);
+    }
+
+    &__mission {
+        color: var(--color-text-light);
+    }
+
+    .hero-section__buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px; // Increased gap for better spacing
+    }
+
+    .btn {
+        padding: 12px 24px; // Increased padding for buttons
+        font-size: 1rem;
+        border-radius: 5px; // Added border radius for a smoother look
+        transition: background-color 0.3s ease; // Smooth transition for hover effect
+    }
+
+    .btn-primary {
+        background-color: rgb(62, 125, 255);
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: rgb(50, 100, 220); // Darker shade on hover
+    }
+
+    .btn-secondary {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: rgb(62, 125, 255);
+        border: 1px solid rgb(62, 125, 255);
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(255, 255, 255, 1); // Solid white on hover
+    }
+}

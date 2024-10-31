@@ -1,0 +1,98 @@
+// Import Tailwind base, components, and utilities layers
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "bootstrap/dist/css/bootstrap.css";
+
+// Define color variables for light and dark themes
+
+
+:root {
+  --background-white: #ffffff;
+  // --boreground-dark-1: #171717;
+  --background-light: #f5f8ff;
+  --background-lighter: #f8f9fa;
+  --background-dark: #131b4d;
+
+  --foreground-dark: #ededed;
+  --main-color: #3e7dff;
+  // --main-color: #4f46e5;
+  --color-border: #637381;
+  --color-white: #fff;
+  --color-text-dark: #080321;
+  --color-text-light: #637381;
+  --color-text-lighter: #fff;
+}
+
+.main-color {
+  color: var(--main-color);
+}
+
+.color-text-dark {
+  color: var(--color-text-dark);
+}
+
+.color-text-light {
+  color: var(--color-text-light);
+}
+
+.color-text-lighter {
+  color: var(--color-text-lighter);
+}
+
+.background-light {
+  background-color: var(--background-light);
+}
+
+.background-light-less {
+  background-color: #f5f8ff66;
+  // background-color: var(--background-light);
+}
+
+.background-blue {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.3;
+  background-image: linear-gradient(rgb(62, 125, 255) 0%, rgba(62, 125, 255, 0) 100%);
+  z-index: -1;
+}
+
+.background-dark {
+  background-color: var(--background-dark);
+}
+
+
+
+
+// {/* <div className="absolute inset-0">
+//     <Image
+//         alt="shape"
+//         loading="lazy"
+//         src={Shap}
+//         className="w-full h-full object-cover opacity-30"
+//     />
+// </div> */}
+// <div className="absolute inset-0 -z-10 overflow-hidden">
+//     <svg
+//         aria-hidden="true"
+//         className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
+//     >
+//         <defs>
+//             <pattern
+//                 x="50%"
+//                 y={-1}
+//                 id="pattern"
+//                 width={200}
+//                 height={200}
+//                 patternUnits="userSpaceOnUse"
+//             >
+//                 <path d="M100 200V.5M.5 .5H200" fill="none" />
+//             </pattern>
+//         </defs>
+//         <rect fill="url(#pattern)" width="100%" height="100%" strokeWidth={0} />
+//     </svg>
+// </div>
