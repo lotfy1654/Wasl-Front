@@ -149,8 +149,6 @@ export default function Page() {
                                         <span className="color-text-light"> توفير حلول مبتكرة في مجال التصميم.</span>
                                     </li>
                                 </ul>
-
-
                             </div>
                         </div>
                     </div>
