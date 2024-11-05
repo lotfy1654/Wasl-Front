@@ -61,11 +61,45 @@
   z-index: -1;
 }
 
+.he-max-60 {
+  max-height: 70px;
+  height: 70px;
+}
+
 .background-dark {
   background-color: var(--background-dark);
 }
 
+.border-body-color {
+  border-color: #b5b3bc1a !important;
+}
 
+.text-body-color{
+  color: #959cb1;
+}
+
+blockquote {
+  margin-top: 2.25rem;
+  margin-bottom: 1.5rem;
+  border-right-width: 3px;
+  /* Change border to the right */
+  --tw-border-opacity: 1;
+  border-color: rgb(62 125 255 / var(--tw-border-opacity));
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  padding-right: 1.75rem;
+  /* Add padding to the right */
+  font-weight: 500;
+  font-style: italic;
+  --tw-text-opacity: 1;
+  color: rgb(8 3 33 / var(--tw-text-opacity));
+  text-align: right;
+  /* Align text to the right */
+  background-color: rgba(62, 125, 255, 0.1);
+  /* Soft background with transparency */
+  border-radius: 8px;
+  /* Optional: Rounded corners for a smoother look */
+}
 
 
 // {/* <div className="absolute inset-0">

@@ -62,7 +62,7 @@ export default function Navbar() {
                                     }
                                 </button>
                                 <button className='nav-bar-btn-sign-in'>
-                                    <a href={`/auth/login`}
+                                    <a href={`/auth/signin`}
                                         className='nav-bar-btn-sign-in-link text-decoration-none rounded-5 fs-6 fw-semibold'>
                                         تسجيل الدخول
                                     </a>

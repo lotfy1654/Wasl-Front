@@ -89,7 +89,7 @@ export default function BlogSection() {
                                         {resource.date}
                                     </time>
                                     <a
-                                        href={`#${resource.id}`}
+                                        href={`/blog?id=${resource.id}`}
                                         className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                                     >
                                         {resource.category.title}
@@ -97,7 +97,9 @@ export default function BlogSection() {
                                 </div>
                                 <div className="group relative mt-3">
                                     <h3 className="text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
-                                        <a href={resource.href}>
+                                        <a
+                                            href={`/blog?id=${resource.id}`}
+                                        >
                                             <span className="absolute inset-0" />
                                             {resource.title}
                                         </a>

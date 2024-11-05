@@ -79,7 +79,7 @@ export default function Page() {
                                     </form>
                                     <p className="mt-4 fs-6 text-center text-sm font-medium text-body-color">
                                         ليس لديك حساب؟
-                                        <a href="/" className="text-primary hover:underline pe-2">
+                                        <a href="/auth/signup" className="text-primary hover:underline pe-2">
                                             سجل الآن
                                         </a>
                                     </p>

@@ -40,7 +40,7 @@ export default function HeroSection() {
                     </p>
                     <div className="hero-section__buttons">
                         <button className="btn btn-primary fw-bold">
-                            <a href={`/auth/login`} className="text-decoration-none">
+                            <a href={`/auth/signin`} className="text-decoration-none">
                                 ابدأ الآن
                             </a>
                         </button>
