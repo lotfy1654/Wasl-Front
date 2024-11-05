@@ -13,15 +13,26 @@ export default function Navbar() {
     useEffect(() => {
         const urlNow = window.location.pathname;
         setCurrentUrl(urlNow);
-    }, []);
 
-    const handleScroll = () => {
-        if (window.scrollY > 50) { // Change 50 to your desired scroll threshold
-            setIsScrolled(true);
-        } else {
-            setIsScrolled(false);
-        }
-    };
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        // Check scroll position immediately when the page loads
+        handleScroll();
+
+        // Add scroll event listener
+        document.addEventListener("scroll", handleScroll);
+
+        // Cleanup on component unmount
+        return () => {
+            document.removeEventListener("scroll", handleScroll);
+        };
+    }, []); // Empty dependency array ensures this effect runs only once on mount
 
     const handleClickoutside = (e) => {
         if (
@@ -34,10 +45,8 @@ export default function Navbar() {
     };
 
     useEffect(() => {
-        document.addEventListener("scroll", handleScroll); // Add scroll event listener
         document.addEventListener("mousedown", handleClickoutside);
         return () => {
-            document.removeEventListener("scroll", handleScroll);
             document.removeEventListener("mousedown", handleClickoutside);
         };
     }, [navBarToggle]);
@@ -54,11 +63,10 @@ export default function Navbar() {
                                     onClick={() => setNavBarToggle(!navBarToggle)}
                                     ref={toggleButton}
                                 >
-                                    {
-                                        navBarToggle ?
-                                            <i className="bi bi-x fs-1"></i>
-                                            :
-                                            <i className="bi bi-list fs-1"></i>
+                                    {navBarToggle ?
+                                        <i className="bi bi-x fs-1"></i>
+                                        :
+                                        <i className="bi bi-list fs-1"></i>
                                     }
                                 </button>
                                 <button className='nav-bar-btn-sign-in'>
