@@ -1,4 +1,8 @@
+'use client';
+import { useEffect, useState } from "react";
 import "./style.scss";
+import axios from "axios";
+import { Api_Uri } from "@/app/_api/api";
 
 // Service data object with expanded descriptions
 const services = [
@@ -41,6 +45,21 @@ const services = [
 ];
 
 export default function WhatWeOffer() {
+
+    const [services, setServices] = useState([]);
+
+    useEffect(() => {
+        // Fetch services data from API
+        axios.get(`${Api_Uri}/services/home`)
+            .then((response) => {
+                setServices(response.data);
+            })
+            .catch((error) => {
+                setServices([]);
+            });
+    }, []);
+
+
     return (
         <section className="what-we-offer mt-5">
             <div className="container">
@@ -57,10 +76,10 @@ export default function WhatWeOffer() {
                             data-aos="fade-up"
                             data-aos-delay={index * 100} // delay increases with each card for staggered effect
                         >
-                            <i className={`${service.icon} fs-3 mt-1`}></i>
-                            <h3 className="fs-4 mb-3 fw-semibold mt-3">{service.title}</h3>
+                            <i className={`${service.icon_service} fs-3 mt-1`}></i>
+                            <h3 className="fs-4 mb-3 fw-semibold mt-3">{service.name}</h3>
                             <p className="fs-6 fw-normal">
-                                {service.description}
+                                {service.sub_description}
                             </p>
                             <a href={`/service?id=${service.id}`} className="btn rounded mt-3">
                                 معرفة المزيد

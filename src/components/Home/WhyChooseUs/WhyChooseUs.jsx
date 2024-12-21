@@ -1,34 +1,26 @@
+'use client';
+import { Api_Uri } from '@/app/_api/api';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+
 import { BuildingLibraryIcon, TruckIcon, UsersIcon, LightBulbIcon } from '@heroicons/react/24/solid';
 
 
-const features = [
-    {
-        id: 1,
-        icon: BuildingLibraryIcon,
-        title: 'تأسيس الشركات',
-        description: 'نساعدك في جميع خطوات تأسيس شركتك، بدءًا من اختيار الاسم وحتى تسجيلها رسميًا. نفهم أن عملية التأسيس يمكن أن تكون معقدة، لذلك نحن هنا لتقديم الإرشادات اللازمة وتوفير الوثائق المطلوبة لضمان سير العملية بسلاسة وسرعة.'
-    },
-    {
-        id: 2,
-        icon: TruckIcon,
-        title: 'دعم لوجيستي',
-        description: 'نقدم خدمات لوجستية متكاملة لضمان سير العمل بسلاسة ودون أي عوائق. سواء كنت بحاجة إلى نقل البضائع، أو إدارة المخزون، أو التخزين، فإن فريقنا يضمن لك حلاً لوجستياً يناسب احتياجاتك الخاصة ويعزز من كفاءة عملك.'
-    },
-    {
-        id: 3,
-        icon: UsersIcon,
-        title: 'دعم إداري متكامل',
-        description: 'فريقنا يوفر لك الدعم الإداري اللازم لتسهيل عملياتك اليومية وتحقيق الأهداف. نحن نقدم مجموعة شاملة من الخدمات الإدارية، بما في ذلك تنظيم المستندات، وإدارة الموارد البشرية، والتخطيط المالي، مما يتيح لك التركيز على تطوير أعمالك بشكل أكبر.'
-    },
-    {
-        id: 4,
-        icon: LightBulbIcon,
-        title: 'إنشاء مشاريع مبتكرة',
-        description: 'نساعدك في تحويل أفكارك إلى مشاريع ناجحة من خلال الاستشارات والدعم العملي. نقدم لك الأدوات والمعرفة اللازمة لبناء مشاريعك من الألف إلى الياء، مع توفير التوجيه في مجالات مثل التسويق والتكنولوجيا والابتكار، لضمان نجاح مشروعك في السوق.'
-    }
-];
-
 export default function WhyChooseUs() {
+
+
+    const [dattaWhyChooseUs, setDataWhyChooseUs] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${Api_Uri}/home/why-choose-us`)
+            .then((response) => {
+                setDataWhyChooseUs(response.data.data);
+            })
+            .catch((error) => {
+                setDataWhyChooseUs([]);
+            });
+    }, []);
 
     return (
         <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0" dir='rtl'>
@@ -57,7 +49,7 @@ export default function WhyChooseUs() {
                     لماذا تختارنا
                 </h2>
                 <div className="grid grid-cols-1 gap-16 md:grid-cols-2">
-                    {features.map((feature, index) => {
+                    {dattaWhyChooseUs.map((feature, index) => {
                         const Icon = feature.icon;
                         return (
                             <div
@@ -67,7 +59,9 @@ export default function WhyChooseUs() {
                                 data-aos-delay={index * 300} // Delay for staggered animation
                                 data-aos-offset="200" // Adjusts the scroll trigger point
                             >
-                                <Icon className="h-16 w-16 text-indigo-600 mb-4 main-color" />
+                                {/* <Icon className="h-16 w-16 text-indigo-600 mb-4 main-color" /> */}
+                                <i className={`${feature.icon} h-16 w-16 text-indigo-600 mb-4 main-color fs-1`}>
+                                </i>
                                 <h3 className="text-xl font-semibold">{feature.title}</h3>
                                 <p className="mt-2 text-center text-gray-600">
                                     {feature.description}

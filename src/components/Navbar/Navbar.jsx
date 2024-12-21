@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import "./style.scss";
+import axios from "axios";
+import { Api_Uri } from "@/app/_api/api";
 
 export default function Navbar() {
     const [currentUrl, setCurrentUrl] = useState("");
@@ -9,6 +11,9 @@ export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false); // New state for scroll
     const navBar = useRef();
     const toggleButton = useRef();
+    const [token, setToken] = useState(null);
+    const [user, setUser] = useState({});
+    const [someOneLoggedIn, setSomeOneLoggedIn] = useState(false);
 
     useEffect(() => {
         const urlNow = window.location.pathname;
@@ -51,6 +56,34 @@ export default function Navbar() {
         };
     }, [navBarToggle]);
 
+    // Check If User Logged In
+    useEffect(() => {
+        const token = localStorage.getItem("wasl-token");
+        if (token) {
+            setToken(token);
+            setSomeOneLoggedIn(true);
+        }
+    }, []);
+
+    // If Token Changed Fetch User Data
+    useEffect(() => {
+        if (!token) return;
+        axios.get(`${Api_Uri}/auth/get-user-data`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => {
+                setUser(response.data);
+            })
+            .catch((error) => {
+                setUser({});
+                localStorage.removeItem("wasl-token");
+                setToken(null);
+                setSomeOneLoggedIn(false);
+            });
+    }, [token]);
+
     return (
         <div className={`nav-bar-component ${isScrolled ? 'scrolled' : ''}`}>
             <div className="container-fluid">
@@ -69,12 +102,73 @@ export default function Navbar() {
                                         <i className="bi bi-list fs-1"></i>
                                     }
                                 </button>
-                                <button className='nav-bar-btn-sign-in'>
-                                    <a href={`/auth/signin`}
-                                        className='nav-bar-btn-sign-in-link text-decoration-none rounded-5 fs-6 fw-semibold'>
-                                        تسجيل الدخول
-                                    </a>
-                                </button>
+                                {
+                                    someOneLoggedIn
+                                        ?
+                                        <div className="flex items-center gap-2 bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 cursor-pointer">
+                                            <div>
+                                                <img
+                                                    src={user.profile_picture || "https://placehold.it/100x100"}
+                                                    alt={`${user.first_name} ${user.last_name}`}
+                                                    className="w-10 h-10 rounded-full border-2 border-white"
+                                                />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-semibold">
+                                                    {user.first_name} {user.last_name}
+                                                </span>
+                                                <button
+                                                    className="text-xs hover:underline-offset-2 transition"
+                                                    onClick={() => {
+                                                        if (user.role == "Admin") {
+                                                            window.location.href = "/dashboard/admin";
+                                                        } else if (user.role == "User") {
+                                                            window.location.href = "/dashboard/user";
+                                                        } else if (user.role == "Manager") {
+                                                            window.location.href = "/dashboard/manager";
+                                                        } else {
+                                                            window.location.href = "/";
+                                                        }
+                                                    }}
+                                                >
+                                                    عرض الملف الشخصي
+                                                </button>
+                                            </div>
+                                        </div>
+                                        // <div className="flex items-center gap-2 bg-blue-50 py-2 px-3 rounded-lg shadow-md border border-gray-200">
+                                        //     <div className="flex items-center">
+                                        //         <img
+                                        //             src={user.profile_picture || "/default-avatar.png"}
+                                        //             alt={`${user.first_name} ${user.last_name}`}
+                                        //             className="w-10 h-10 rounded-full border-2 border-blue-500"
+                                        //         />
+                                        //     </div>
+                                        //     <div className="flex flex-col">
+                                        //         <span className="text-sm font-semibold text-gray-700">
+                                        //             {user.first_name} {user.last_name}
+                                        //         </span>
+                                        //         <a
+                                        //             href="/auth/profile"
+                                        //             className="text-xs text-blue-500 hover:text-blue-600 transition duration-200"
+                                        //         >
+                                        //             عرض الملف الشخصي
+                                        //         </a>
+                                        //     </div>
+                                        // </div>
+                                        // <button className='nav-bar-btn-sign-in'>
+                                        //     <a href={`/auth/profile`}
+                                        //         className='nav-bar-btn-sign-in-link text-decoration-none rounded-5 fs-6 fw-semibold'>
+                                        //         {user.first_name} {user.last_name}
+                                        //     </a>
+                                        // </button>
+                                        :
+                                        <button className='nav-bar-btn-sign-in'>
+                                            <a href={`/auth/signin`}
+                                                className='nav-bar-btn-sign-in-link text-decoration-none rounded-5 fs-6 fw-semibold'>
+                                                تسجيل الدخول
+                                            </a>
+                                        </button>
+                                }
                             </div>
                         </div>
                         <div className={`col-lg-6 all-wrap-lists-navs ${navBarToggle ? "nav-bar-list-active" : ""}`}

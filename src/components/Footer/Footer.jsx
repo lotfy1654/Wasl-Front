@@ -1,8 +1,25 @@
+'use client';
 // Footer.js
-import React from 'react';
+import { Api_Uri } from '@/app/_api/api';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaPinterestP } from 'react-icons/fa';
 
 const Footer = () => {
+
+    const [socialMedia, setSocialMedia] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${Api_Uri}/home/social-media`)
+            .then(res => {
+                setSocialMedia(res.data);
+            })
+            .catch(err => {
+                setSocialMedia([]);
+            });
+    }, []);
+
+
     return (
         <footer dir="rtl" className="relative z-10 py-8 border-t border-gray-300 bg-light">
             <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
@@ -46,6 +63,18 @@ const Footer = () => {
                         <div className="flex items-center gap-3">
                             <p className="font-medium text-custom-sm text-dark">تابعونا:</p>
                             <div className="flex items-center gap-1.5">
+                                {
+                                    socialMedia.map((item, index) => (
+                                        <a key={index} href={item.link} aria-label={item.name} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 transition duration-300 hover:text-dark">
+                                            {/* <img src={item.icon} alt={item.name} className="w-6 h-6" /> */}
+                                            <i className={item.icon_social}
+                                                style={{ fontSize: '1.5rem', color: item.icon_color }}
+                                            ></i>
+                                        </a>
+                                    ))
+                                }
+                            </div>
+                            {/* <div className="flex items-center gap-1.5">
                                 <a href="#" aria-label="facebook social link" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 transition duration-300 hover:text-dark">
                                     <FaFacebookF className="text-blue-600 text-2xl" />
                                 </a>
@@ -58,7 +87,7 @@ const Footer = () => {
                                 <a href="#" aria-label="pinterest social link" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 transition duration-300 hover:text-dark">
                                     <FaPinterestP className="text-red-600 text-2xl" />
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

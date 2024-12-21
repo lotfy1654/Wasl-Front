@@ -1,46 +1,23 @@
+'use client';
+import { Api_Uri } from "@/app/_api/api";
 import Shap from "@/image/home/testimonial-shape.svg";
+import axios from "axios";
 import Image from "next/image";
-
-const testimonials = [
-    {
-        id: 1,
-        name: 'أحمد السعيد',
-        role: 'مستشار أعمال',
-        text: 'خدمة ممتازة! ساعدوني كثيراً في تأسيس شركتي.'
-    },
-    {
-        id: 2,
-        name: 'سارة الحسن',
-        role: 'خبير لوجستي',
-        text: 'شكرًا لكم على دعمكم المستمر! ساعدتموني في تحسين سلاسل التوريد.'
-    },
-    {
-        id: 3,
-        name: 'محمد الجاسم',
-        role: 'مستشار مالي',
-        text: 'تجربتي كانت رائعة! أوصي بشدة بهذه الخدمة.'
-    },
-    {
-        id: 4,
-        name: 'علي النصر',
-        role: 'مدير مشاريع',
-        text: 'عمل احترافي، سأستخدم خدماتهم مرة أخرى.'
-    },
-    {
-        id: 5,
-        name: 'فاطمة الزهراء',
-        role: 'مستشارة تسويق',
-        text: 'دعم ممتاز وفهم عميق لاحتياجاتنا.'
-    },
-    {
-        id: 6,
-        name: 'يوسف الرشيد',
-        role: 'مستشار قانوني',
-        text: 'خدمة رائعة، استجابة سريعة وفعالة.'
-    },
-];
+import { useEffect, useState } from "react";
 
 export default function TestimonialSection() {
+
+    const [testimonials, setTestimonials] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${Api_Uri}/home/testimonial`)
+            .then(response => {
+                setTestimonials(response.data);
+            })
+            .catch(error => {
+                setTestimonials([]);
+            });
+    }, []);
 
     return (
         <div className="py-24 sm:py-32 relative background-light" dir="rtl">
@@ -68,11 +45,11 @@ export default function TestimonialSection() {
                             <div className="flex items-end mb-4 justify-end">
                                 <div className="ml-4">
                                     <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                                    <p className="text-gray-600">{testimonial.role}</p>
+                                    <p className="text-gray-600">{testimonial.bussiness_position}</p>
                                 </div>
                             </div>
                             <p className="mt-4 text-gray-600 fs-6 fw-semibold">
-                                "{testimonial.text}"
+                                "{testimonial.description}"
                             </p>
                         </div>
                     ))}

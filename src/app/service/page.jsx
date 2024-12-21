@@ -1,11 +1,58 @@
+'use client';
 import Footer from '@/components/Footer/Footer';
 import Navbar from '@/components/Navbar/Navbar';
 import { FaLaptopCode, FaPaintBrush, FaMobileAlt } from 'react-icons/fa'; // Import icons
 import Shap from "@/image/home/sale-shape.svg";
 import Image from 'next/image';
 import ShapTwo from "@/image/home/testimonial-shape.svg";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Api_Uri } from '../_api/api';
 
 export default function Page() {
+
+    const [allServices, setAllServices] = useState([]);
+    const [iDServices, setIDServices] = useState("");
+    const [service, setService] = useState([]);
+
+    useEffect(() => {
+        const search = new URLSearchParams(window.location.search);
+        const id = search.get('id');
+        if (id) {
+            setIDServices(id);
+        } else {
+            setIDServices(null);
+        }
+    }, []);
+
+    useEffect(() => {
+        axios.get(`${Api_Uri}/services/all/name-id`)
+            .then(res => setAllServices(res.data))
+            .catch(err => setAllServices([]))
+    }, []);
+
+    useEffect(() => {
+        if (iDServices == null && allServices.length > 0) {
+            setIDServices(allServices[0].id);
+        }
+    }, [iDServices, allServices]);
+
+    useEffect(() => {
+
+        if (iDServices) {
+            axios.get(`${Api_Uri}/services/page/${iDServices}`)
+                .then((res) => {
+                    const response = [res.data];
+                    setService(response);
+                })
+                .catch((err) => {
+                    setService([]);
+                })
+        }
+
+    }, [iDServices]);
+
+
 
     return (
         <>
@@ -50,22 +97,20 @@ export default function Page() {
                             <div className="space-y-10">
                                 <div data-aos="fade-up" data-aos-duration="1000">
                                     <h3 className="mb-[22px] text-[34px] font-bold color-text-dark">الخدمات</h3>
-                                    <div className="border-stroke rounded-sm border">
-                                        <a className="border-stroke flex w-full items-center gap-3 border-b px-5 py-4 text-lg font-medium duration-200 last-of-type:border-0 color-text-dark hover:text-primary" href="/service/website-development">
-                                            <FaLaptopCode size={22} className="text-primary" />
-                                            تطوير المواقع
-                                        </a>
-                                        <a className="border-stroke flex w-full items-center gap-3 border-b px-5 py-4 text-lg font-medium duration-200 last-of-type:border-0 text-primary" href="/service/graphic-design">
-                                            <FaPaintBrush size={22} className="text-primary" />
-                                            التصميم الجرافيكي
-                                        </a>
-                                        <a className="border-stroke flex w-full items-center gap-3 border-b px-5 py-4 text-lg font-medium duration-200 last-of-type:border-0 color-text-dark hover:text-primary" href="/service/app-development">
-                                            <FaMobileAlt size={22} className="text-primary" />
-                                            تطوير التطبيقات
-                                        </a>
+                                    <div className="border-stroke rounded-sm border max-h-[300px] overflow-y-auto scrollbar-custom">
+                                        {allServices.map((service, index) => (
+                                            <a
+                                                key={index}
+                                                href={`/service?id=${service.id}`}
+                                                className="border-stroke flex w-full items-center gap-3 border-b px-5 py-4 text-lg font-medium duration-200 last-of-type:border-0 color-text-dark hover:text-primary"
+                                            >
+                                                <i className={`text-primary ${service.icon_service}`} />
+                                                {service.name}
+                                            </a>
+                                        ))}
                                     </div>
                                 </div>
-                                <div className="bg-primary px-7 py-10 text-center" data-aos="zoom-in" data-aos-duration="1000">
+                                <div className="bg-primary px-7 py-10 text-center mb-4" data-aos="zoom-in" data-aos-duration="1000">
                                     <div className="mx-auto w-full max-w-[215px]">
                                         <h3 className="mb-5 text-2xl font-bold text-white">دعونا نتحدث</h3>
                                         <p className="mb-1.5 text-white">(+550) 647 876 093</p>
@@ -78,78 +123,99 @@ export default function Page() {
                             </div>
                         </div>
                         <div className="w-full px-5 lg:w-8/12 position-relative">
-                            <div className="absolute -bottom-40 left-0 h-100 opacity-10">
+                            <div className="absolute -bottom-40 left-0 h-100 opacity-30">
                                 <Image alt="shape" loading="lazy" width="435" height="959" decoding="async" src={Shap} />
                             </div>
-                            <div data-aos="fade-up" data-aos-duration="1000">
-                                <div className="relative mb-8 aspect-[34/20] rounded-sm bg-stone-100 w-100 h-[400px] overflow-hidden ml-auto">
-                                    <img
-                                        alt="image"
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="w-full object-cover object-center"
-                                        sizes="100vw"
-                                        src="https://agency.demo.nextjstemplates.com/_next/image?url=%2Fimages%2Fservices%2Fservice-02.jpg&w=1920&q=75"
-                                    />
-                                </div>
+                            {
+                                service.map((service, index) => (
+                                    <div data-aos="fade-up" data-aos-duration="1000"
+                                        key={index}
+                                    >
+                                        <div className="relative mb-8 aspect-[34/20] rounded-sm bg-stone-100 w-100 h-[500px] overflow-hidden ml-auto">
+                                            <img
+                                                alt="image"
+                                                loading="lazy"
+                                                decoding="async"
+                                                className="w-full object-cover object-center"
+                                                sizes="100vw"
+                                                src={service.image_service}
+                                            />
+                                        </div>
 
-                                <h1 className="mb-7 text-2xl font-bold color-text-dark sm:text-4xl lg:text-3xl">التصميم الجرافيكي</h1>
-                                <p className="mb-8 text-base color-text-light sm:text-lg lg:text-base xl:text-lg">
-                                    نحن نؤمن بأن التصميم الجرافيكي هو أحد الأدوات الفعالة في نقل رسائل شركتك وخلق انطباع قوي لدى العملاء.
-                                    نقدم حلول تصميم فريدة تشمل الشعارات، البوسترات، الهويات البصرية، وغيرها من التصاميم التي تعكس جوهر رؤيتك.
-                                    كل تصميم نبتكره يعكس هوية العلامة التجارية بشكل يعزز التواصل مع جمهورك المستهدف.
-                                </p>
-                                <ul className="list mb-7 list-inside list-disc bg-white bg-opacity-80 p-3 rounded relative"
-                                    data-aos="fade-up"
-                                >
-                                    <div className="absolute left-0 top-0 transform -rotate-180">
-                                        <Image
-                                            alt="shape"
-                                            loading="lazy"
-                                            width="254"
-                                            height="182"
-                                            decoding="async"
-                                            data-nimg="1"
-                                            src={ShapTwo}
-                                            style={{ color: 'transparent' }}
-                                        />
+                                        <h1 className="mb-7 text-2xl font-bold color-text-dark sm:text-4xl lg:text-3xl">
+                                            {service.name}
+                                        </h1>
+                                        <p className="mb-8 text-base color-text-light sm:text-lg lg:text-base xl:text-lg">
+                                            {service.description}
+                                        </p>
+                                        {
+                                            service.benifits_service.map((benifit, index) => (
+                                                <ul
+                                                    key={index}
+                                                    className="list-none mb-7 bg-white bg-opacity-80 p-3 rounded relative"
+                                                    data-aos="fade-up"
+                                                >
+                                                    <div className="absolute left-0 top-0 h-full w-auto transform -rotate-180">
+                                                        <Image
+                                                            alt="shape"
+                                                            loading="lazy"
+                                                            width={254} // Or adjust as needed
+                                                            height={0} // Ensure auto-resizing
+                                                            decoding="async"
+                                                            data-nimg="1"
+                                                            src={ShapTwo}
+                                                            className="h-full w-auto object-cover" // Ensures the image covers the parent height
+                                                            style={{ color: 'transparent' }}
+                                                        />
+                                                    </div>
+                                                    <h4 className="mb-8 text-xl font-bold color-text-dark text-indigo sm:text-2xl lg:text-xl xl:text-2xl">
+                                                        <span className="text-primary ms-2 me-0">{index + 1}.</span>
+                                                        <span>{benifit.title}</span>
+                                                    </h4>
+                                                    {benifit.names.map((detail, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className="mb-3 text-base sm:text-lg lg:text-base xl:text-lg flex items-center gap-3"
+                                                        >
+                                                            <span
+                                                                className={`flex-shrink-0 w-3 h-3 rounded-sm ${index % 2 === 0 ? 'bg-blue-400' : 'bg-indigo-800'
+                                                                    }`}
+                                                            ></span>
+                                                            <span className="color-text-light">{detail}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+
+                                            ))
+                                        }
+                                        {/* <ul className="list mb-7 list-inside list-disc bg-white bg-opacity-80 p-3 rounded relative"
+                                            data-aos="fade-up"
+                                        >
+                                            <div className="absolute left-0 top-0 transform -rotate-180">
+                                                <Image
+                                                    alt="shape"
+                                                    loading="lazy"
+                                                    width="254"
+                                                    height="182"
+                                                    decoding="async"
+                                                    data-nimg="1"
+                                                    src={ShapTwo}
+                                                    style={{ color: 'transparent' }}
+                                                />
+                                            </div>
+                                            <h4 className="mb-8 text-xl font-bold color-text-dark sm:text-2xl lg:text-xl xl:text-2xl">
+                                                <span className="text-primary">02.</span> تصميم الهوية البصرية
+                                            </h4>
+                                            <li className="mb-3 text-base sm:text-lg lg:text-base xl:text-lg">
+                                                <span className="color-text-light"> تصميم الشعارات والهوية التجارية المميزة. </span>
+                                            </li>
+                                            <li className="mb-3 text-base sm:text-lg lg:text-base xl:text-lg">
+                                                <span className="color-text-light"> توفير حلول مبتكرة في مجال التصميم.</span>
+                                            </li>
+                                        </ul> */}
                                     </div>
-                                    <h4 className="mb-8 text-xl font-bold color-text-dark sm:text-2xl lg:text-xl xl:text-2xl">
-                                        <span className="text-primary">01.</span> حلول التسويق
-                                    </h4>
-                                    <li className="mb-3 text-base sm:text-lg lg:text-base xl:text-lg">
-                                        <span className="color-text-light"> تخصيص الحلول التسويقية بما يتناسب مع احتياجات العميل. </span>
-                                    </li>
-                                    <li className="mb-3 text-base sm:text-lg lg:text-base xl:text-lg">
-                                        <span className="color-text-light"> تطوير استراتيجيات التسويق عبر الإنترنت لتوسيع دائرة العملاء. </span>
-                                    </li>
-                                </ul>
-                                <ul className="list mb-7 list-inside list-disc bg-white bg-opacity-80 p-3 rounded relative"
-                                    data-aos="fade-up"
-                                >
-                                    <div className="absolute left-0 top-0 transform -rotate-180">
-                                        <Image
-                                            alt="shape"
-                                            loading="lazy"
-                                            width="254"
-                                            height="182"
-                                            decoding="async"
-                                            data-nimg="1"
-                                            src={ShapTwo}
-                                            style={{ color: 'transparent' }}
-                                        />
-                                    </div>
-                                    <h4 className="mb-8 text-xl font-bold color-text-dark sm:text-2xl lg:text-xl xl:text-2xl">
-                                        <span className="text-primary">02.</span> تصميم الهوية البصرية
-                                    </h4>
-                                    <li className="mb-3 text-base sm:text-lg lg:text-base xl:text-lg">
-                                        <span className="color-text-light"> تصميم الشعارات والهوية التجارية المميزة. </span>
-                                    </li>
-                                    <li className="mb-3 text-base sm:text-lg lg:text-base xl:text-lg">
-                                        <span className="color-text-light"> توفير حلول مبتكرة في مجال التصميم.</span>
-                                    </li>
-                                </ul>
-                            </div>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>

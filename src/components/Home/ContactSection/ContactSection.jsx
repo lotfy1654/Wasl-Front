@@ -5,6 +5,9 @@ import React, { useState } from "react";
 import Shap from "@/image/home/shape-3.svg";
 import shapNews from "@/image/home/newsletter-shape.svg";
 import "./style.scss"
+import axios from "axios";
+import { Api_Uri } from "@/app/_api/api";
+import Swal from "sweetalert2";
 
 export default function ContactSection() {
     const [formData, setFormData] = useState({
@@ -35,32 +38,63 @@ export default function ContactSection() {
         setErrorMessage("");
         setLoading(true); // Start loading
 
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                setSuccessMessage("Your message has been sent successfully!");
-                setFormData({
-                    fname: "",
-                    lname: "",
-                    phone: "",
-                    email: "",
-                    message: "",
-                });
-            } else {
-                throw new Error("Failed to send message");
-            }
-        } catch (error) {
-            setErrorMessage("There was an error sending your message. Please try again later.");
-        } finally {
-            setLoading(false); // End loading
+        const dataSend = {
+            first_name: formData.fname,
+            last_name: formData.lname,
+            phone_number: formData.phone,
+            email: formData.email,
+            message: formData.message
         }
+
+        axios.post(`${Api_Uri}/contact-us/create`, dataSend)
+            .then((res) => {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'تم إرسال الرسالة بنجاح',
+                    timer: 2000,
+                    confirmButtonText: 'حسنًا',
+                    confirmButtonColor: '#7F9CF5',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
+                        if (progressBar) {
+                            progressBar.style.background = '#7F9CF5';
+                        }
+                    }
+                });
+            })
+            .catch((error) => {
+                let errorTitle = 'حدث خطأ';
+                if (error?.response?.data?.first_name) {
+                    errorTitle = 'خطأ في الاسم';
+                } else if (error?.response?.data?.phone_number) {
+                    errorTitle = 'خطأ في رقم الهاتف';
+                } else if (error?.response?.data?.email) {
+                    errorTitle = 'خطأ في البريد الإلكتروني';
+                } else if (error?.response?.data?.message) {
+                    errorTitle = 'خطأ في الرسالة';
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: errorTitle,
+                    text: 'حدث خطأ أثناء إرسال الرسالة، يرجى المحاولة مرة أخرى لاحقًا',
+                    html: `
+                        <div style="font-size: 14px; line-height: 1.5; color: #333;">
+                            ${error?.response?.data?.first_name || error?.response?.data?.last_name || error?.response?.data?.phone_number || error?.response?.data?.email || error?.response?.data?.message}
+                        </div>
+                    `,
+                    timer: 4000,
+                    confirmButtonText: 'حسنًا',
+                    confirmButtonColor: '#F87171',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
+                        if (progressBar) {
+                            progressBar.style.background = '#F87171';
+                        }
+                    },
+                });
+            });
     };
 
     const handleNewsletterSubmit = async (e) => {
@@ -127,70 +161,70 @@ export default function ContactSection() {
                                 <div className="flex flex-wrap mx-[-16px]">
                                     {/* حقول النموذج */}
                                     <div className="w-full md:w-1/2 px-4 mb-8">
-                                        <label htmlFor="fname" className="block text-sm font-medium text-body-color mb-3">
+                                        <label htmlFor="fname" className="block text-sm font-medium text-dark-color mb-3">
                                             الاسم الأول <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             name="fname"
                                             placeholder="أدخل اسمك الأول"
-                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-body-color text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
+                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-dark-color  text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
                                             value={formData.fname}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
                                     <div className="w-full md:w-1/2 px-4 mb-8">
-                                        <label htmlFor="lname" className="block text-sm font-medium text-body-color mb-3">
+                                        <label htmlFor="lname" className="block text-sm font-medium text-dark-color mb-3">
                                             الاسم الأخير <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             name="lname"
                                             placeholder="أدخل اسمك الأخير"
-                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-body-color text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
+                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-dark-color  text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
                                             value={formData.lname}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
                                     <div className="w-full md:w-1/2 px-4 mb-8">
-                                        <label htmlFor="phone" className="block text-sm font-medium text-body-color mb-3">
+                                        <label htmlFor="phone" className="block text-sm font-medium text-dark-color mb-3">
                                             رقم الهاتف <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             name="phone"
                                             placeholder="أدخل رقم هاتفك"
-                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-body-color text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
+                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-dark-color  text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
                                             value={formData.phone}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
                                     <div className="w-full md:w-1/2 px-4 mb-8">
-                                        <label htmlFor="email" className="block text-sm font-medium text-body-color mb-3">
+                                        <label htmlFor="email" className="block text-sm font-medium text-dark-color mb-3">
                                             بريدك الإلكتروني <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="email"
                                             name="email"
                                             placeholder="أدخل بريدك الإلكتروني"
-                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-body-color text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
+                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-dark-color  text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition"
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
                                     <div className="w-full px-4 mb-8">
-                                        <label htmlFor="message" className="block text-sm font-medium text-body-color mb-3">
+                                        <label htmlFor="message" className="block text-sm font-medium text-dark-color mb-3">
                                             رسالتك <span className="text-red-500">*</span>
                                         </label>
                                         <textarea
                                             name="message"
                                             rows="5"
                                             placeholder="أدخل رسالتك"
-                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-body-color text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition resize-none"
+                                            className="w-full border border-[#DEE3F7] rounded-sm py-3 px-6 text-dark-color text-base placeholder-body-color outline-none focus-visible:shadow-none focus:border-primary transition resize-none"
                                             value={formData.message}
                                             onChange={handleChange}
                                             required
@@ -199,10 +233,9 @@ export default function ContactSection() {
                                     <div className="w-full mx-auto text-center px-4">
                                         <button
                                             type="submit"
-                                            disabled={loading}
                                             className="text-base font-medium text-white bg-primary py-4 px-11 hover:shadow-signUp rounded-sm inline-flex mx-auto transition duration-300 ease-in-out rounded"
                                         >
-                                            {loading ? "جارٍ الإرسال..." : "إرسال الرسالة"}
+                                            إرسال الرسالة
                                         </button>
                                     </div>
                                 </div>
@@ -219,7 +252,7 @@ export default function ContactSection() {
             >
                 <div className="container-md">
                     <div className="rounded-3 border p-5 relative background-dark">
-                        <div class="absolute right-0 top-0">
+                        <div className="absolute right-0 top-0">
                             <Image alt="shape" loading="lazy" width="501" height="220" decoding="async" src={shapNews} />
                         </div>
                         <h3 className="text-center mb-6 text-white fs-3">تواصل معنا لمزيد من الدعم</h3>

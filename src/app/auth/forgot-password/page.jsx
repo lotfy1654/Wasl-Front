@@ -19,7 +19,7 @@ export default function ForgotPasswordPage() {
                     decoding="async"
                     className="absolute left-0 top-0 -z-10"
                     src={ShapOne}
-                    style={{ color: "transparent;" }}
+                    style={{ color: "transparent" }}
                 />
                 <Image
                     alt="shape"
@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
                     decoding="async"
                     className="absolute right-0 top-0 -z-10"
                     src={ShapTwo}
-                    style={{ color: "transparent;" }}
+                    style={{ color: "transparent" }}
                 />
                 <div className="container">
                     <div className="mx-[-16px] flex flex-wrap" data-aos="fade-up">

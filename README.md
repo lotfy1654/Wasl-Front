@@ -34,3 +34,46 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+
+add
+
+const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
+                    if (progressBar) {
+                        progressBar.style.background = "#16a34a";
+                    }
+
+
+
+error
+                    didOpen: () => {
+                        const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
+                        if (progressBar) {
+                            progressBar.style.background = "#d33";
+                        }
+                    }
+
+
+                    const extractErrors = (errorObj) => {
+  const errors = [];
+
+  for (const [key, messages] of Object.entries(errorObj)) {
+    messages.forEach((message) => {
+      errors.push({
+        field: key,
+        errorMessage: message,
+      });
+    });
+  }
+
+  return errors;
+};
+
+
+   const [token, setToken] = useState('');
+    useEffect(() => {
+        const getToken = localStorage.getItem('wasl-token');
+        setToken(getToken);
+    }, []);
