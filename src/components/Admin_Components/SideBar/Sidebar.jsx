@@ -311,7 +311,11 @@ const SidebarLayout = ({ children, currentTab }) => {
                             </ul>
                         )}
                         <div
-                            className="p-3 mt-3 text-sm hover:bg-red-600 rounded-lg flex items-center cursor-pointer w-100 justify-center"
+                            className="p-3 mt-3 text-sm hover:bg-red-600 rounded-lg flex items-center cursor-pointer w-100 justify-center pointer"
+                            onClick={() => {
+                                localStorage.removeItem('wasl-token')
+                                window.location.href = '/auth/signin'
+                            }}
                         >
                             <i className="mr-3 ms-2 bi bi-box-arrow-right text-white" />
                             <span className="text-white">تسجيل الخروج</span>
