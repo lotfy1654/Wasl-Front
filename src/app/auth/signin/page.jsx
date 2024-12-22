@@ -64,7 +64,7 @@ export default function Page() {
                     },
                     willClose: () => {
                         if (res.role == "Admin") {
-                            window.location.href = "/dashboard/admin/home";
+                            window.location.href = "/dashboard/admin";
                         } else if (res.role == "User") {
                             window.location.href = "/dashboard/user";
                         } else if (res.role == "Manager") {
