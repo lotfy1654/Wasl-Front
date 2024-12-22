@@ -77,3 +77,12 @@ error
         const getToken = localStorage.getItem('wasl-token');
         setToken(getToken);
     }, []);
+
+
+
+
+      <div className="bg-white rounded-lg shadow-lg w-[40rem] p-6 overflow-y-auto max-h-[70vh]">
+
+
+
+    <div className="bg-white rounded-lg shadow-lg w-96 p-6 overflow-y-auto max-h-[70vh]">
