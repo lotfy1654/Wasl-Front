@@ -77,7 +77,7 @@ export default function Layout({ children }) {
         );
     }
 
-    if (userData.role != "Admin") {
+    if (userData?.role != "Admin") {
         return (
             <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-yellow-50 to-yellow-200" dir="rtl">
                 <FaExclamationTriangle className="text-yellow-500 text-7xl mb-6" />
@@ -93,5 +93,9 @@ export default function Layout({ children }) {
         );
     }
 
-    return <>{children}</>;
+    return (
+        <>
+            {children}
+        </>
+    );
 }
