@@ -57,24 +57,24 @@ export default function Page() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (imageFile == null) {
-            Swal.fire({
-                icon: 'error',
-                text: 'يرجى تحميل صورة الملف الشخصي',
-                confirmButtonColor: '#4D6588',
-                showCancelButton: false,
-                showConfirmButton: false,
-                timer: 1500,
-                timerProgressBar: true,
-                didOpen: () => {
-                    const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
-                    if (progressBar) {
-                        progressBar.style.background = "#4D6588";
-                    }
-                }
-            });
-            return;
-        }
+        // if (imageFile == null) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         text: 'يرجى تحميل صورة الملف الشخصي',
+        //         confirmButtonColor: '#4D6588',
+        //         showCancelButton: false,
+        //         showConfirmButton: false,
+        //         timer: 1500,
+        //         timerProgressBar: true,
+        //         didOpen: () => {
+        //             const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
+        //             if (progressBar) {
+        //                 progressBar.style.background = "#4D6588";
+        //             }
+        //         }
+        //     });
+        //     return;
+        // }
         const formData = new FormData();
         formData.append('username', userName);
         formData.append('password', password);
@@ -83,9 +83,13 @@ export default function Page() {
         formData.append('first_name', firstName);
         formData.append('last_name', lastName);
         formData.append('phone', phone);
-        formData.append('profile_picture', imageFile);
         formData.append('country', country);
         formData.append('date_of_birth', age);
+
+        if (imageFile != null) {
+            formData.append('profile_picture', imageFile);
+        }
+
         axios.post(`${Api_Uri}/auth/register`, formData)
             .then(res => {
                 Swal.fire({
@@ -112,15 +116,15 @@ export default function Page() {
                 // Default error message
                 let errorMessage = 'حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.';
 
-                if (errorResponse) {
-                    // Prepare error message with field names (keys)
-                    errorMessage = Object.entries(errorResponse)
-                        .map(([key, value]) => {
-                            // Create the error message string for each field
-                            return `${key}: ${value.join(', ')}`;
-                        })
-                        .join('\n'); // Join all errors with newline
-                }
+                // if (errorResponse) {
+                //     // Prepare error message with field names (keys)
+                //     errorMessage = Object.entries(errorResponse)
+                //         .map(([key, value]) => {
+                //             // Create the error message string for each field
+                //             return `${key}: ${value.join(', ')}`;
+                //         })
+                //         .join('\n'); // Join all errors with newline
+                // }
 
                 // Display the error message in Swal
                 Swal.fire({
@@ -304,7 +308,7 @@ export default function Page() {
                                             </div>
                                             <div className="mb-8" data-aos="fade-right">
                                                 <label htmlFor="image" className="mb-3 block text-sm font-medium text-dark dark:text-white">
-                                                    صورة الملف الشخصي (اجباري)
+                                                    صورة الملف الشخصي (اختيارى)
                                                 </label>
                                                 <div className="relative">
                                                     <input

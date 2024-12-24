@@ -1,153 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import SideBar from "@/components/Admin_Components/SideBar/Sidebar";
+import SidebarLayout from '@/components/User-Controle-Components/SideBar/Sidebar';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import axios from 'axios';
 import { Api_Uri } from '@/app/_api/api';
 import showUnauthorizedAlert from '@/components/NotAuthError';
 import Swal from 'sweetalert2';
-import UserDetailsOrder from '@/components/Admin_Components/Order_Service_Admin/UserDetails';
-import EmployeeDetailsOrder from '@/components/Admin_Components/Order_Service_Admin/EmployeeDetails';
-import AssignEmployeeModal from '@/components/Admin_Components/Order_Service_Admin/AssignEmployeeModal';
-import OrderStatusUpdateModal from '@/components/Admin_Components/Order_Service_Admin/StatusUpdateModal';
-import PaymentStepUpdateModal from '@/components/Admin_Components/Order_Service_Admin/PaymentStepUpdateModal';
-import StepStatusUpdateModal from '@/components/Admin_Components/Order_Service_Admin/StepStatusUpdateModal';
-import RequirementsFromEmployeeModal from '@/components/Admin_Components/Order_Service_Admin/RequirementsFromEmployeeModal';
-import UserUploadDataModal from '@/components/Admin_Components/Order_Service_Admin/UserUploadDataModal';
-import StepResultModal from '@/components/Admin_Components/Order_Service_Admin/StepResultModal';
+import UserDetailsOrder from '@/components/User-Controle-Components/Order_Service_Manager/UserDetails';
+// import EmployeeDetailsOrder from '@/components/User-Controle-Components/Order_Service_Manager/EmployeeDetails';
+// import AssignEmployeeModal from '@/components/User-Controle-Components/Order_Service_Manager/AssignEmployeeModal';
+// import OrderStatusUpdateModal from '@/components/User-Controle-Components/Order_Service_Manager/StatusUpdateModal';
+// import PaymentStepUpdateModal from '@/components/User-Controle-Components/Order_Service_Manager/PaymentStepUpdateModal';
+// import StepStatusUpdateModal from '@/components/User-Controle-Components/Order_Service_Manager/StepStatusUpdateModal';
+// import RequirementsFromEmployeeModal from '@/components/User-Controle-Components/Order_Service_Manager/RequirementsFromEmployeeModal';
+import UserUploadDataModal from '@/components/User-Controle-Components/Order_Service_Manager/UserUploadDataModal';
+// import StepResultModal from '@/components/User-Controle-Components/Order_Service_Manager/StepResultModal';
 
 export default function Page() {
     const [expandedOrder, setExpandedOrder] = useState(null);
     const [expandedStep, setExpandedStep] = useState(null);
     const [token, setToken] = useState(null);
-    // Initial state for order data
-    // const [orderData, setOrderData] = useState([
-    //     {
-    //         "id": 24,
-    //         "user": {
-    //             "id": 3,
-    //             "first_name": "Ali",
-    //             "last_name": "Esmail",
-    //             "email": "lotfy1653@hotmail.com",
-    //             "phone": "123456789"
-    //         },
-    //         "assigned_employee": {
-    //             "id": 18,
-    //             "user": {
-    //                 "id": 4,
-    //                 "first_name": "kamal",
-    //                 "last_name": "Elzero",
-    //                 "email": "kamal@examle.com",
-    //                 "phone": "123456789"
-    //             },
-    //             "position": "Nostrum perspiciatis"
-    //         },
-    //         "status": "new",
-    //         "created_at": "2024-12-21T18:17:02.587636Z",
-    //         "service": {
-    //             "id": 24,
-    //             "name": "تطوير تطبيقات الهاتف المحمول",
-    //             "description": "تطوير تطبيقات موبايل عبر الأنظمة المختلفة لتقديم تجارب سلسة.",
-    //             "sub_description": "تصميم وتطوير ونشر التطبيقات المدمجة والنقية.",
-    //             "total_price": "9500.00"
-    //         },
-    //         "steps": [
-    //             {
-    //                 "id": 45,
-    //                 "step": 79,
-    //                 "status": "pending",
-    //                 "payment_status": "unpaid",
-    //                 "step_price": "1800.00",
-    //                 "name": "جمع المتطلبات",
-    //                 "step_description": "أهداف العمل، شخصيات المستخدم، قائمة الميزات",
-    //                 "requirements_data_from_user": "نموذج ملاحظات المستخدم ووثيقة متطلبات الميزات.",
-    //                 "files": "https://picsum.photos/200/300",
-    //                 "data_req_user": "ورقة بيانات المستخدم لطلبات الميزات.",
-    //                 "data_user_file_upload": "https://picsum.photos/300/400",
-    //                 "step_result_text": "تم الانتهاء من جمع المتطلبات الأولية من المستخدم.",
-    //                 "step_result_file": "https://picsum.photos/400/500"
-    //             },
-    //             {
-    //                 "id": 46,
-    //                 "step": 80,
-    //                 "status": "pending",
-    //                 "payment_status": "unpaid",
-    //                 "step_price": "3500.00",
-    //                 "name": "تصميم تطبيق الهاتف المحمول",
-    //                 "step_description": "الإطارات السلكية، أصول التصميم، إرشادات العلامة التجارية",
-    //                 "requirements_data_from_user": "تصاميم أولية للإطارات السلكية وإرشادات العلامة التجارية.",
-    //                 "files": "https://picsum.photos/500/600",
-    //                 "data_req_user": "إرشادات العلامة التجارية وورق تدفق المستخدم.",
-    //                 "data_user_file_upload": "https://picsum.photos/600/700",
-    //                 "step_result_text": "تم إعداد الإطارات السلكية وأصول تصميم التطبيق للمراجعة.",
-    //                 "step_result_file": "https://picsum.photos/700/800"
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         "id": 25,
-    //         "user": {
-    //             "id": 1,
-    //             "first_name": "Ali",
-    //             "last_name": "Esmail",
-    //             "email": "lotfy1653@hotmail.com",
-    //             "phone": "123456789"
-    //         },
-    //         "assigned_employee": {
-    //             "id": 18,
-    //             "user": {
-    //                 "id": 4,
-    //                 "first_name": "kamal",
-    //                 "last_name": "Elzero",
-    //                 "email": "kamal@examle.com",
-    //                 "phone": "123456789"
-    //             },
-    //             "position": "Nostrum perspiciatis"
-    //         },
-    //         "status": "new",
-    //         "created_at": "2024-12-21T18:17:02.587636Z",
-    //         "service": {
-    //             "id": 24,
-    //             "name": "تطوير تطبيقات الهاتف المحمول",
-    //             "description": "تطوير تطبيقات موبايل عبر الأنظمة المختلفة لتقديم تجارب سلسة.",
-    //             "sub_description": "تصميم وتطوير ونشر التطبيقات المدمجة والنقية.",
-    //             "total_price": "9500.00"
-    //         },
-    //         "steps": [
-    //             {
-    //                 "id": 45,
-    //                 "step": 79,
-    //                 "status": "pending",
-    //                 "payment_status": "unpaid",
-    //                 "step_price": "1800.00",
-    //                 "name": "جمع المتطلبات",
-    //                 "step_description": "أهداف العمل، شخصيات المستخدم، قائمة الميزات",
-    //                 "requirements_data_from_user": "نموذج ملاحظات المستخدم ووثيقة متطلبات الميزات.",
-    //                 "files": "https://picsum.photos/200/300",
-    //                 "data_req_user": "ورقة بيانات المستخدم لطلبات الميزات.",
-    //                 "data_user_file_upload": "https://picsum.photos/300/400",
-    //                 "step_result_text": "تم الانتهاء من جمع المتطلبات الأولية من المستخدم.",
-    //                 "step_result_file": "https://picsum.photos/400/500"
-    //             },
-    //             {
-    //                 "id": 46,
-    //                 "step": 80,
-    //                 "status": "pending",
-    //                 "payment_status": "unpaid",
-    //                 "step_price": "3500.00",
-    //                 "name": "تصميم تطبيق الهاتف المحمول",
-    //                 "step_description": "الإطارات السلكية، أصول التصميم، إرشادات العلامة التجارية",
-    //                 "requirements_data_from_user": "تصاميم أولية للإطارات السلكية وإرشادات العلامة التجارية.",
-    //                 "files": "https://picsum.photos/500/600",
-    //                 "data_req_user": "إرشادات العلامة التجارية وورق تدفق المستخدم.",
-    //                 "data_user_file_upload": "https://picsum.photos/600/700",
-    //                 "step_result_text": "تم إعداد الإطارات السلكية وأصول تصميم التطبيق للمراجعة.",
-    //                 "step_result_file": "https://picsum.photos/700/800"
-    //             }
-    //         ]
-    //     },
-    // ]);
     const [orderData, setOrderData] = useState([]); // Initial state for order data
     const [steps, setSteps] = useState(orderData.flatMap(order => order.steps)); // Initial state for steps
     useEffect(() => {
@@ -160,7 +33,7 @@ export default function Page() {
     }, [])
 
     const fetchOrders = async () => {
-        axios.get(`${Api_Uri}/services/orders`, {
+        axios.get(`${Api_Uri}/services/orders/my-orders`, {
             headers: { 'Authorization': `Bearer ${token}` }
         }).then((response) => {
             setOrderData(response.data);
@@ -207,62 +80,31 @@ export default function Page() {
     //! Show User Details Modal
     const [showModalUserDetailsId, setShowModalUserDetailsId] = useState(null);
     //! Show Employee Details Modal
-    const [showModalEmployeeDetailsId, setShowModalEmployeeDetailsId] = useState(null);
+    // const [showModalEmployeeDetailsId, setShowModalEmployeeDetailsId] = useState(null);
     //! Update Order Employee
-    const [orderIDforAssignOtherEmployee, setOrderIDforAssignOtherEmployee] = useState(null);
+    // const [orderIDforAssignOtherEmployee, setOrderIDforAssignOtherEmployee] = useState(null);
     //! Update Order Status
-    const [orderIDforUpdateStatus, setOrderIDforUpdateStatus] = useState(null);
+    // const [orderIDforUpdateStatus, setOrderIDforUpdateStatus] = useState(null);
     //! Update Payment Step Status
-    const [stepIdforUpdatePaymentStatus, setStepIdforUpdatePaymentStatus] = useState(null);
+    // const [stepIdforUpdatePaymentStatus, setStepIdforUpdatePaymentStatus] = useState(null);
     //! Update Step Status
-    const [idStepForUpdateMainStatus, setIdStepForUpdateMainStatus] = useState(null)
+    // const [idStepForUpdateMainStatus, setIdStepForUpdateMainStatus] = useState(null)
     //! Update Requirements From Employee
-    const [stepIdForUpdateRequirements, setStepIdForUpdateRequirements] = useState(null);
+    // const [stepIdForUpdateRequirements, setStepIdForUpdateRequirements] = useState(null);
     //! Update User Data To Send To Employee
     const [dataReqUser, setDataReqUser] = useState('');
     //! Step Result Update
-    const [setpIdForUpdateResult, setStepIdForUpdateResult] = useState(null);
-
-    //! Delete Order
-    const deleteOrder = (orderId) => {
-        Swal.fire({
-            title: 'هل أنت متأكد؟',
-            text: "لن تتمكن من التراجع عن هذا الإجراء!",
-            icon: 'تحذير',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'نعم, احذفها!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(`${Api_Uri}/services/orders/delete/${orderId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }).then(() => {
-                    Swal.fire(
-                        'تم!',
-                        'تم حذف الطلب بنجاح.',
-                        'success'
-                    )
-                }).catch((error) => {
-                    Swal.fire(
-                        'خطأ!',
-                        'حدث خطأ ما أثناء حذف الطلب.',
-                        'error'
-                    )
-                })
-            }
-        })
-    }
+    // const [setpIdForUpdateResult, setStepIdForUpdateResult] = useState(null);
 
     return (
         <>
-            <SideBar currentTab={"order"}>
+            <SidebarLayout currentTab={"orders"}>
                 <div className="sm:mt-9 md:mt-9 lg:mt-0">
-                    <div className="flex justify-between items-start mb-6 flex-col md:flex-row">
+                    <div className="flex justify-between items-start mb-6 flex-col md:flex-row md:items-center">
                         {/* Title */}
-                        <h1 className="text-3xl font-bold text-gray-900 mb-4 lg:mb-0">الطلبات</h1>
+                        <h1 className="text-2xl font-bold text-gray-900 mb-4 md:mb-0">
+                            طلباتي
+                        </h1>
 
                         {/* Reload Button */}
                         <button
@@ -340,39 +182,22 @@ export default function Page() {
                                             <div className="mb-2 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                                                 <h4 className="text-sm font-semibold text-gray-800 mb-3">الموظف المعين:</h4>
                                                 {/* Check if employee is assigned */}
-                                                {order.assigned_employee ? (
+                                                {order.assigned_employee
+                                                    ?
                                                     <div className="flex justify-between items-center flex-wrap gap-4">
                                                         <p className="text-gray-700">
                                                             {order.assigned_employee.user.first_name} {order.assigned_employee.user.last_name}
                                                         </p>
-                                                        <button
+                                                        {/* <button
                                                             onClick={() => setShowModalEmployeeDetailsId(order.assigned_employee.id)}
                                                             className="bg-blue-500 text-white text-sm font-medium py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-200"
                                                         >
                                                             عرض التفاصيل
-                                                        </button>
-                                                        {
-                                                            order.status != "completed" && (
-                                                                <button
-                                                                    onClick={() => setOrderIDforAssignOtherEmployee(order.id)}
-                                                                    className="bg-yellow-500 text-white text-sm font-medium py-2 px-4 rounded hover:bg-yellow-600 transition-colors duration-200"
-                                                                >
-                                                                    تغيير الموظف
-                                                                </button>
-                                                            )
-                                                        }
+                                                        </button> */}
                                                     </div>
-                                                ) : (
-                                                    <div className="flex justify-between items-center flex-wrap gap-4">
-                                                        <p className="text-gray-500">لا يوجد موظف معين</p>
-                                                        <button
-                                                            onClick={() => setOrderIDforAssignOtherEmployee(order.id)}
-                                                            className="bg-green-500 text-white text-sm font-medium py-2 px-4 rounded hover:bg-green-600 transition-colors duration-200"
-                                                        >
-                                                            إضافة موظف
-                                                        </button>
-                                                    </div>
-                                                )}
+                                                    :
+                                                    <p className="text-gray-500">لم يتم تعيين موظف بعد</p>
+                                                }
                                             </div>
                                             {/* Order Status */}
                                             <div className="mb-2 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
@@ -396,23 +221,6 @@ export default function Page() {
                                                                     ? "مكتمل"
                                                                     : "غير محدد"}
                                                     </span>
-                                                    {
-                                                        order.status != "completed" && (
-                                                            <button
-                                                                onClick={() => setOrderIDforUpdateStatus(order.id)}
-                                                                className={`ml-4 text-sm font-medium py-2 px-4 rounded transition-colors duration-200 ${order.status === "new"
-                                                                    ? "bg-red-500 text-white hover:bg-red-600"
-                                                                    : order.status === "in_progress"
-                                                                        ? "bg-blue-500 text-white hover:bg-blue-600"
-                                                                        : order.status === "completed"
-                                                                            ? "bg-green-500 text-white hover:bg-green-600"
-                                                                            : "bg-gray-500 text-white hover:bg-gray-600"
-                                                                    }`}
-                                                            >
-                                                                تعديل الحالة
-                                                            </button>
-                                                        )
-                                                    }
                                                 </div>
                                             </div>
                                             {/* Created At */}
@@ -491,7 +299,7 @@ export default function Page() {
                                                         <div className="mt-4 grid grid-cols-2 gap-4">
                                                             <div>
                                                                 <h4 className="text-gray-700 font-semibold">سعر الخطوة:</h4>
-                                                                <p className="text-sm text-gray-800">{step.step_price} $</p>
+                                                                <p className="text-sm text-gray-800">{step.step_price}</p>
                                                             </div>
                                                             <div>
                                                                 <h4 className="text-gray-700 font-semibold">وصف الخطوة:</h4>
@@ -501,32 +309,31 @@ export default function Page() {
                                                     </div>
 
                                                     {/* Check if payment is paid and status is complete */}
-                                                    {
-                                                        order.status != "completed" && (
-                                                            <div className="flex justify-between mt-4">
-                                                                {step.payment_status != 'paid'
-                                                                    ? (
-                                                                        <button
-                                                                            onClick={() => setStepIdforUpdatePaymentStatus(step.id)}
-                                                                            className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-4 border border-blue-500 rounded-md"
-                                                                        >
-                                                                            تحديث حالة الدفع
-                                                                        </button>
+                                                    {/* {order.status !== 'completed' && (
+                                                        <div className="flex justify-between mt-4">
+                                                            {step.payment_status != 'paid'
+                                                                ? (
+                                                                    <button
+                                                                        onClick={() => setStepIdforUpdatePaymentStatus(step.id)}
+                                                                        className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-4 border border-blue-500 rounded-md"
+                                                                    >
+                                                                        تحديث حالة الدفع
+                                                                    </button>
 
-                                                                    ) : null}
-                                                                {step.status != 'completed'
-                                                                    ? (
+                                                                ) : null}
+                                                            {step.status != 'completed'
+                                                                ? (
 
-                                                                        <button
-                                                                            onClick={() => setIdStepForUpdateMainStatus(step.id)}
-                                                                            className="bg-green-500 text-white hover:bg-green-600 py-2 px-4 border border-green-500 rounded-md"
-                                                                        >
-                                                                            تحديث الحالة
-                                                                        </button>
-                                                                    ) : null}
-                                                            </div>
-                                                        )
-                                                    }
+                                                                    <button
+                                                                        onClick={() => setIdStepForUpdateMainStatus(step.id)}
+                                                                        className="bg-green-500 text-white hover:bg-green-600 py-2 px-4 border border-green-500 rounded-md"
+                                                                    >
+                                                                        تحديث الحالة
+                                                                    </button>
+                                                                ) : null}
+                                                        </div>
+                                                    )} */}
+
 
                                                     {/* Card 1: requirements_data_from_user and files */}
                                                     <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
@@ -554,21 +361,22 @@ export default function Page() {
                                                             )}
 
                                                             {/* Update Button */}
-                                                            {
-                                                                order.status != "completed" && (
+
+                                                            {/* {
+                                                                order.status != 'completed' && (
                                                                     <>
-                                                                        {step.payment_status !== 'paid' || step.status !== 'completed' ? (
-                                                                            <button
-                                                                                onClick={() => setStepIdForUpdateRequirements(step.id)}
-                                                                                className="bg-green-500 text-white hover:bg-green-600 py-2 px-4 rounded-md transition-colors duration-200"
-                                                                            >
-                                                                                تحديث المتطلبات
-                                                                            </button>
-                                                                        ) : null}
+                                                                        {step.payment_status !== 'paid' || step.status !== 'completed'
+                                                                            ? (
+                                                                                <button
+                                                                                    onClick={() => setStepIdForUpdateRequirements(step.id)}
+                                                                                    className="bg-green-500 text-white hover:bg-green-600 py-2 px-4 rounded-md transition-colors duration-200"
+                                                                                >
+                                                                                    تحديث المتطلبات
+                                                                                </button>
+                                                                            ) : null}
                                                                     </>
                                                                 )
-                                                            }
-
+                                                            } */}
                                                         </div>
                                                     </div>
 
@@ -597,7 +405,7 @@ export default function Page() {
 
                                                             {/* Update Button */}
                                                             {
-                                                                order.status != "completed" && (
+                                                                order.status != 'completed' && (
                                                                     <>
                                                                         {step.payment_status !== 'paid' || step.status !== 'completed' ? (
                                                                             <button
@@ -633,8 +441,8 @@ export default function Page() {
                                                                 <p className="text-sm text-gray-500">لا يوجد نتيجة مرفقة</p>
                                                             )}
                                                             {/* Update Button */}
-                                                            {
-                                                                order.status != "completed" && (
+                                                            {/* {
+                                                                order.status != 'completed' && (
                                                                     <>
                                                                         {step.payment_status !== 'paid' || step.status !== 'completed' ? (
                                                                             <button
@@ -646,19 +454,13 @@ export default function Page() {
                                                                         ) : null}
                                                                     </>
                                                                 )
-                                                            }
+                                                            } */}
                                                         </div>
                                                     </div>
                                                 </div>
                                             )}
                                         </div>
                                     ))}
-                                    <button
-                                        onClick={() => deleteOrder(order.id)}
-                                        className="bg-red-500 text-white hover:bg-red-600 py-2 px-4 border border-blue-500 rounded-md mt-4"
-                                    >
-                                        حذف الطلب
-                                    </button>
                                 </div>
                             )}
                         </div>
@@ -693,7 +495,7 @@ export default function Page() {
                     )}
 
                 </div>
-            </SideBar>
+            </SidebarLayout>
 
             {/* User Details Modal */}
             <UserDetailsOrder
@@ -702,40 +504,35 @@ export default function Page() {
             />
 
 
-            <EmployeeDetailsOrder
+            {/* <EmployeeDetailsOrder
                 id={showModalEmployeeDetailsId}
                 onClose={() => setShowModalEmployeeDetailsId(null)}
-            />
+            /> */}
 
-            <AssignEmployeeModal
-                orderId={orderIDforAssignOtherEmployee}
-                onClose={() => setOrderIDforAssignOtherEmployee(null)}
-                refreshData={refreshData}
-            />
-
+            {/* 
             <OrderStatusUpdateModal
                 orderId={orderIDforUpdateStatus}
                 onClose={() => setOrderIDforUpdateStatus(null)}
                 refreshData={refreshData}
-            />
+            /> */}
 
-            <PaymentStepUpdateModal
+            {/* <PaymentStepUpdateModal
                 stepId={stepIdforUpdatePaymentStatus}
                 onClose={() => setStepIdforUpdatePaymentStatus(null)}
                 refreshData={refreshData}
-            />
+            /> */}
 
-            <StepStatusUpdateModal
+            {/* <StepStatusUpdateModal
                 stepId={idStepForUpdateMainStatus}
                 onClose={() => setIdStepForUpdateMainStatus(null)}
                 refreshData={refreshData}
-            />
+            /> */}
 
-            <RequirementsFromEmployeeModal
+            {/* <RequirementsFromEmployeeModal
                 stepId={stepIdForUpdateRequirements}
                 onClose={() => setStepIdForUpdateRequirements(null)}
                 refreshData={refreshData}
-            />
+            /> */}
 
             <UserUploadDataModal
                 stepid={dataReqUser}
@@ -743,11 +540,11 @@ export default function Page() {
                 refreshData={refreshData}
             />
 
-            <StepResultModal
+            {/* <StepResultModal
                 stepId={setpIdForUpdateResult}
                 onClose={() => setStepIdForUpdateResult(null)}
                 refreshData={refreshData}
-            />
+            /> */}
         </>
     );
 }
