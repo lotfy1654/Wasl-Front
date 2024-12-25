@@ -11,7 +11,9 @@ export default function Page() {
 
     return (
         <>
-            <SidebarLayout>
+            <SidebarLayout
+                currentTab="home"
+            >
                 <div className="min-h-screen flex flex-col p-6 bg-gray-50" dir="rtl">
                     {/* Header */}
                     <h1 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">مرحبًا بك في لوحة التحكم</h1>

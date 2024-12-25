@@ -23,7 +23,7 @@ export default function AboutUs() {
     }, []);
 
     return (
-        <section className="about-us border-top border-bottom" >
+        <section className="about-us border-top border-bottom" id="about-us">
             <div className="container">
                 {
                     dataAbout.map((item, index) => {

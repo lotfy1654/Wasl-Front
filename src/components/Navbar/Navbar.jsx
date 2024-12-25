@@ -179,13 +179,13 @@ export default function Navbar() {
                                     <a href='/' className='nav-bar-item-link text-decoration-none'>الرئيسية</a>
                                 </li>
                                 <li className='nav-bar-item'>
-                                    <a href='/' className='nav-bar-item-link text-decoration-none'>من نحن</a>
+                                    <a href='/#about-us' className='nav-bar-item-link text-decoration-none'>من نحن</a>
                                 </li>
                                 <li className='nav-bar-item'>
-                                    <a href='/' className='nav-bar-item-link text-decoration-none'>خدماتنا</a>
+                                    <a href='/service' className='nav-bar-item-link text-decoration-none'>خدماتنا</a>
                                 </li>
                                 <li className='nav-bar-item'>
-                                    <a href='/' className='nav-bar-item-link text-decoration-none'>اتصل بنا</a>
+                                    <a href='/#contact-us' className='nav-bar-item-link text-decoration-none'>اتصل بنا</a>
                                 </li>
                             </ul>
                         </div>

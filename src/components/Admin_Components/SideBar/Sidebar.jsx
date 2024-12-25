@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect, use } from "react";
 import { FaBars, FaHome, FaChevronDown, FaTimes, FaEnvelope, FaPenAlt, FaInfoCircle } from "react-icons/fa";
 import { FaUsers, FaChalkboardTeacher } from "react-icons/fa";
+import { MdOutlineDashboard } from "react-icons/md";
 import Swal from "sweetalert2";
 
 const SidebarLayout = ({ children, currentTab }) => {
@@ -160,6 +161,16 @@ const SidebarLayout = ({ children, currentTab }) => {
                 {/* Sidebar content */}
                 <div className="space-y-6 px-4 py-4">
                     {/* Dashboard Section */}
+
+                    <p className={`p-3 text-sm hover:bg-indigo-600 rounded-lg ${isActiveTab('homedashboard')}`}>
+                        <a href="/dashboard/admin" className="flex items-center w-full">
+                            <MdOutlineDashboard className="mr-3 ms-2" />
+                            <span>
+                                لوحة التحكم
+                            </span>
+                        </a>
+                    </p>
+
                     <div>
                         <h3
                             className="text-sm mb-3 font-medium text-gray-300 cursor-pointer flex justify-between items-center transition duration-300"
@@ -175,6 +186,7 @@ const SidebarLayout = ({ children, currentTab }) => {
 
                         {dropdownOpen.adminSettings && (
                             <ul className="pl-6 space-y-2">
+
                                 <li className={`p-3 text-sm hover:bg-indigo-600 rounded-lg ${isActiveTab('home')}`}>
                                     <a href="/dashboard/admin/home" className="flex items-center w-full">
                                         <FaHome className="mr-3 ms-2" />

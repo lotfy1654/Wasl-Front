@@ -2,7 +2,7 @@ import { Api_Uri } from "@/app/_api/api";
 import showUnauthorizedAlert from "@/components/NotAuthError";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { FaBars, FaClipboardList, FaTimes } from "react-icons/fa";
+import { FaBars, FaClipboardList, FaHome, FaTimes } from "react-icons/fa";
 import { FaUserCog } from 'react-icons/fa';
 import Swal from "sweetalert2";
 
@@ -118,6 +118,15 @@ const SidebarLayout = ({ children, currentTab }) => {
                 <div className="space-y-6 px-4 py-6">
                     <ul className="space-y-8">
                         {/* Tasks Link */}
+                        <li
+                            className={`p-3 flex items-center gap-2 text-sm rounded-lg hover:bg-indigo-600 transition ${isActiveTab('home') ? 'bg-indigo-700' : ''}`}
+                        >
+                            <FaHome className="text-xl mr-4" />
+                            <a href="/dashboard/user" className="flex-1">
+                                الصفحة الرئيسية
+                            </a>
+                        </li>
+
                         <li
                             className={`p-3 flex items-center gap-2 text-sm rounded-lg hover:bg-indigo-600 transition ${isActiveTab('orders') ? 'bg-indigo-700' : ''}`}
                         >

@@ -103,7 +103,7 @@ export default function ContactSection() {
     };
 
     return (
-        <section id="contact" className="contact-section position-relative" dir="rtl">
+        <section id="contact-us" className="contact-section position-relative" dir="rtl">
             <div
                 data-aos="fade-up"
                 className="absolute -top-0 right-0 -z-10 opacity-75"
