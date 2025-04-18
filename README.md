@@ -90,3 +90,100 @@ npm run dev
 # أو
 yarn install
 yarn dev
+```
+
+---
+
+# 🧩 Wasl
+
+A professional user interface for the "Wasl" services platform, developed using **Next.js** and **Tailwind CSS**. The platform provides an interactive interface for website visitors and clients, with custom dashboards for: clients, employees, and admins.
+
+🔗 **Website Link**: [wasl-front.vercel.app](https://wasl-front.vercel.app/)
+
+---
+
+## 🖥️ Website Sections
+
+### 🎯 Home Page
+Includes:
+- Header
+- About Us
+- What We Do
+- Pricing
+- Why Us?
+- Contact Us
+- Blog
+- A brief overview of all available services
+
+### 🧰 Services
+- Displays all services with a short description
+- When selecting a service, a detailed explanation appears with the required stages to complete it
+- Ability to request the service and create an account to track it later
+- Client dashboard to view order status, stage details, payment status, and assigned employee info
+
+### 🧑‍💼 Employee
+- Employee sees all tasks assigned to them
+- Can update the status of each order stage (Completed, In Progress, Paid, etc.)
+- Can edit their profile
+
+### 🧠 Blog
+- Articles are displayed on the homepage
+- Clicking an article opens it in detail with related articles
+- Ability to browse articles by categories
+
+### 🛡️ Admin Dashboard
+- Edit the entire homepage content (header, about, contact us, blog, etc.)
+- Add and modify services and their stages
+- Assign an employee to each order
+- Manage employees and clients
+- Add articles and categories
+- Add and modify pricing plans
+- Full access to view orders and user statuses
+
+---
+
+## 🛠️ Technologies and Tools Used
+
+### 📦 Frontend Stack
+
+- **Next.js** – Production-ready framework for React  
+- **React** – Library for building user interfaces  
+- **Tailwind CSS** – A modern, fast CSS framework  
+- **SASS** – A CSS preprocessor for advanced styles  
+- **Bootstrap** + **Bootstrap Icons**  
+- **AOS** – Scroll animations  
+- **SweetAlert** – Interactive pop-up windows  
+- **React Icons** – Integrated icon library  
+- **Axios** – For interacting with REST APIs  
+
+---
+
+## 🧪 Test Accounts
+
+#### 👤 Client
+- **Username:** `mohamed1654`
+- **Email:** `client@wasl.com`  
+- **Password:** `newPass123`
+
+#### 👨‍🔧 Employee
+- **Username:** `ali123`
+- **Email:** `employee@wasl.com`  
+- **Password:** `newPass123`
+
+#### 👑 Admin
+- **Username:** `admin`
+- **Email:** `admin@wasl.com`  
+- **Password:** `admin123`
+
+---
+
+## 🚀 Running Locally
+
+To run the project locally, execute the following commands:
+
+```bash
+npm install
+npm run dev
+# Or
+yarn install
+yarn dev
