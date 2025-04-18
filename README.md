@@ -90,5 +90,3 @@ npm run dev
 # أو
 yarn install
 yarn dev
-
-
