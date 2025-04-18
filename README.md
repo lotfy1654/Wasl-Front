@@ -1,88 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🧩 وصل - Wasl (الواجهة الأمامية)
 
-## Getting Started
+واجهة مستخدم احترافية لمنصة خدمات شركة "وصل"، تم تطويرها باستخدام **Next.js** و**Tailwind CSS**. المنصة توفر واجهة تفاعلية لزوار الموقع والعملاء، مع لوحات تحكم مخصصة لكل من: العميل، الموظف، والمسؤول.
 
-First, run the development server:
+🔗 **رابط الموقع**: [wasl-front.vercel.app](https://wasl-front.vercel.app/)
+
+---
+
+## 🖥️ أقسام الموقع
+
+### 🎯 الصفحة الرئيسية
+تحتوي على:
+- الهيدر (رأس الصفحة)
+- من نحن
+- ماذا نقدم (What we do)
+- التسعير
+- لماذا نحن؟
+- تواصل معنا
+- المدونة
+- عرض مختصر لكل الخدمات المتاحة
+
+### 🧰 الخدمات
+- عرض جميع الخدمات مع وصف مختصر
+- عند اختيار خدمة، يظهر شرح مفصل مع المراحل المطلوبة لتنفيذها
+- إمكانية طلب الخدمة وإنشاء حساب لمتابعتها لاحقًا
+- لوحة تحكم للعميل لعرض حالة الطلب، تفاصيل المراحل، حالة الدفع، ومعلومات الموظف المسؤول
+
+### 🧑‍💼 الموظف
+- يرى الموظف جميع المهام الموكلة إليه
+- يمكنه تحديث حالة كل مرحلة في الطلب (تم، قيد العمل، مدفوع... إلخ)
+- يستطيع تعديل ملفه الشخصي
+
+### 🧠 المدونة
+- يتم عرض المقالات ضمن الصفحة الرئيسية
+- عند النقر، يتم عرض المقال بالتفصيل مع مقالات مشابهة
+- إمكانية تصفح المقالات حسب التصنيفات
+
+### 🛡️ لوحة تحكم الأدمن
+- تعديل محتوى الصفحة الرئيسية بالكامل (header, about, contact us, blog, etc.)
+- إضافة وتعديل الخدمات والمراحل الخاصة بها
+- تعيين موظف لكل طلب
+- إدارة الموظفين والعملاء
+- إضافة المقالات والتصنيفات
+- إضافة وتعديل خطط التسعير
+- الإطلاع الكامل على حالة الطلبات والمستخدمين
+
+---
+
+## 🛠️ التقنيات والأدوات المستخدمة
+
+### 📦 Frontend Stack
+
+- **Next.js** – إطار عمل لـ React جاهز للإنتاج  
+- **React** – مكتبة لبناء واجهات المستخدم  
+- **Tailwind CSS** – إطار تصميم عصري وسريع  
+- **SASS** – كتابة CSS بأسلوب برمجي متطور  
+- **Bootstrap** + **Bootstrap Icons**  
+- **AOS** – للأنيميشن عند التمرير  
+- **SweetAlert** – نوافذ منبثقة تفاعلية  
+- **React Icons** – مكتبة أيقونات مدمجة  
+- **Axios** – للتعامل مع REST APIs  
+
+---
+## 🧪 حسابات تجريبية (Test Accounts)
+
+#### 👤 عميل (Client)
+- **اسم المستخدم:** `mohamed1654`
+- **البريد الإلكتروني:** `client@wasl.com`  
+- **كلمة المرور:** `newPass123`
+
+#### 👨‍🔧 موظف (Employee)
+- **اسم المستخدم:** `ali123`
+- **البريد الإلكتروني:** `employee@wasl.com`  
+- **كلمة المرور:** `newPass123`
+
+#### 👑 أدمن (Admin)
+- **اسم المستخدم:** `admin`
+- **البريد الإلكتروني:** `admin@wasl.com`  
+- **كلمة المرور:** `admin123`
+
+---
+
+## 🚀 بدء التشغيل محليًا
+
+لتشغيل المشروع محليًا، نفّذ الأوامر التالية:
 
 ```bash
+npm install
 npm run dev
-# or
+# أو
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
-
-
-add
-
-const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
-                    if (progressBar) {
-                        progressBar.style.background = "#16a34a";
-                    }
-
-
-
-error
-                    didOpen: () => {
-                        const progressBar = Swal.getPopup()?.querySelector(".swal2-timer-progress-bar");
-                        if (progressBar) {
-                            progressBar.style.background = "#d33";
-                        }
-                    }
-
-
-                    const extractErrors = (errorObj) => {
-  const errors = [];
-
-  for (const [key, messages] of Object.entries(errorObj)) {
-    messages.forEach((message) => {
-      errors.push({
-        field: key,
-        errorMessage: message,
-      });
-    });
-  }
-
-  return errors;
-};
-
-
-   const [token, setToken] = useState('');
-    useEffect(() => {
-        const getToken = localStorage.getItem('wasl-token');
-        setToken(getToken);
-    }, []);
-
-
-
-
-      <div className="bg-white rounded-lg shadow-lg w-[40rem] p-6 overflow-y-auto max-h-[70vh]">
-
-
-
-    <div className="bg-white rounded-lg shadow-lg w-96 p-6 overflow-y-auto max-h-[70vh]">
